@@ -1,7 +1,7 @@
 server {
-        listen 82;
-        listen [::]:82;
-        server_name lusehair;
+        listen 80;
+        listen [::]:80;
+        server_name site www.site;
         return 301 https://$server_name$request_uri;
 }
 
@@ -9,14 +9,14 @@ server {
         listen 443 ssl ;
         listen [::]:443 ssl ;
 
-  		ssl_certificate /etc/nginx/ssl/lusehair.pem;
-	        ssl_certificate_key /etc/nginx/ssl/lusehair.key;
+  		ssl_certificate /etc/nginx/ssl/site.pem;
+	        ssl_certificate_key /etc/nginx/ssl/site.key;
 
-        root /var/www/lusehair;
+        root /var/www/site;
 
         index index.html index.htm index.nginx-debian.html index.php;
 
-        server_name lusehair;
+        server_name site;
 
         location / {
 		autoindex on;

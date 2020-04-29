@@ -9,32 +9,35 @@ RUN apt-get update \
 
 
 #INSTALL WORDPRESS 
-RUN mkdir /var/www/lusehair 
+RUN mkdir /var/www/site
 RUN	wget https://wordpress.org/latest.tar.gz
 RUN tar xzvf latest.tar.gz
-RUN mv wordpress /var/www/lusehair 
+RUN mv wordpress /var/www/site
 RUN chown -R www-data:www-data /var/www/*
 RUN chmod -R 755 /var/www/*
-COPY	srcs/wp-config.php var/www/lusehair/wordpress 
+COPY srcs/wp-config.php var/www/site/wordpress 
+RUN rm -rf /etc/nginx/sites-enabled/default
 #INSTALL PHPMYADMIN
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/4.9.5/phpMyAdmin-4.9.5-all-languages.tar.xz
-RUN mkdir /var/www/lusehair/phpmyadmin
+RUN mkdir /var/www/site/phpmyadmin
 RUN tar -xvf phpMyAdmin-4.9.5-all-languages.tar.xz --strip-components 1 -C /var/www/lusehair/phpmyadmin
-COPY srcs/config.inc.php /var/www/lusehair/phpmyadmin 
+COPY srcs/config.inc.php /var/www/site/phpmyadmin 
+RUN touch /var/www/site/index.php
+RUN echo "<?php phpinfo(); ?>" > var/www/site/index.php
 #CONFIG DB 
 COPY srcs/configdb.sh ./ 
 RUN chmod 777 ./configdb.sh
 RUN sh ./configdb.sh 
-COPY srcs/nginx-conf /etc/nginx/sites-available/lusehair 
-RUN ln -s /etc/nginx/sites-available/lusehair /etc/nginx/sites-enabled/lusehair 
-RUN rm -rf /etc/nginx/sites-enabled/default 
+COPY srcs/nginx-conf /etc/nginx/sites-available/site
+RUN ln -s /etc/nginx/sites-available/site /etc/nginx/sites-enabled/site
+ 
 #CREATE SSL KEY 
 RUN 	mkdir /etc/nginx/ssl
-RUN	openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/nginx/ssl/lusehair.pem -keyout /etc/nginx/ssl/lusehair.key -subj "/C=FR/ST=Paris/CN=lusehair"
+RUN	openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/nginx/ssl/site.pem -keyout /etc/nginx/ssl/site.key -subj "/C=FR/ST=Paris/CN=lusehair"
 #GROOVY BABY 
 COPY srcs/init.sh ./
 RUN chmod 777 init.sh 
-EXPOSE 82 443
+#EXPOSE 82 443
 CMD ["bash", "./init.sh"]
 
 
