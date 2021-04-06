@@ -4,8 +4,8 @@
 
 Après s'être battu avec le C, il est temps de se quitter, le temps d'un petit projet qui nous fait découvrir un autre domaine de la programmation. Le web. Ici, il n'est pas question de faire un simple serveur web (trop simple pour un stud de 42) 
 *"Tu va le faire avec un truc que t'as pas encore vu ! Docker !"*
-
-Donc, le but étant se faire un script Docker (et plus) pour automatiser le déploiement d'un serveur nginx avec wordpress dessus. Pour cela fonctionne correctement, il faut logiquement Docker sur sa machine et écrire les commandes suivantes : 
+Cancel changes
+Donc, le but étant se faire un script Docker (et plus) pour automatiser le déploiement d'un serveur nginx avec wordpress dessus. Pour que cela fonctionne correctement, il faut logiquement Docker sur sa machine et écrire les commandes suivantes : 
 
 Pour construire l'image Docker : 
 
